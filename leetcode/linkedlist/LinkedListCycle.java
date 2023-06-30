@@ -14,13 +14,12 @@ class ListNode {
 
 public class LinkedListCycle {
     public boolean hasCycle(ListNode head) {
-        Map<ListNode, ListNode> map = new HashMap<>();
-        ListNode cur = head;
-        while (cur != null) {
-            if (map.containsKey(cur))
-                return true;
-            map.put(cur, cur.next);
-            cur = cur.next;
+        ListNode fast = head;
+        ListNode slow = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) return true;
         }
         return false;
     }
