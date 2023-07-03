@@ -1,4 +1,4 @@
-package leetcode.array;
+package leetcode.string;
 
 public class StrStr {
     public int strStr(String haystack, String needle) {

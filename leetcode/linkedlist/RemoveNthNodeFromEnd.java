@@ -1,31 +1,22 @@
-package leetcode.array;
+package leetcode.linkedlist;
 
 class ListNode {
-    int val;
-    ListNode next;
+      int val;
+      ListNode next;
+      ListNode() {}
+      ListNode(int val) { this.val = val; }
+      ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+  }
 
-    ListNode() {
-    }
-
-    ListNode(int val) {
-        this.val = val;
-    }
-
-    ListNode(int val, ListNode next) {
-        this.val = val;
-        this.next = next;
-    }
-}
-
-class RemoveNthNodeFromEnd {
-
+  class RemoveNthNodeFromEnd {
+ 
     public ListNode removeNthFromEnd(ListNode head, int n) {
         ListNode dummy = new ListNode(0, head);
         ListNode left = dummy;
         ListNode right = head;
         while (n > 0 && right != null) {
             right = right.next;
-            n--;
+            n--; 
         }
         while (right != null) {
             left = left.next;
@@ -35,3 +26,4 @@ class RemoveNthNodeFromEnd {
         return dummy.next;
     }
 }
+
