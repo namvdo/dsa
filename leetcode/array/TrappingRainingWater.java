@@ -2,18 +2,22 @@ package leetcode.array;
 
 public class TrappingRainingWater {
     public int trap(int[] height) {
-        int left = 0, right = height.length - 1;
-        int maxLeft = height[left], maxRight = height[right];
+        int n = height.length;
+        int[] maxLeft = new int[n];
+        int[] maxRight = new int[n];
+        for(int i = 1; i < n; i++) {
+            maxLeft[i] = Math.max(height[i - 1], maxLeft[i - 1]);
+        }
+
+        for(int j = n - 2; j >= 0; j--) {
+            maxRight[j] = Math.max(height[j + 1], maxRight[j + 1]);
+        }
+
         int res = 0;
-        while (left < right) {
-            if (maxLeft < maxRight) {
-                left += 1;
-                maxLeft = Math.max(maxLeft, height[left]);
-                res += maxLeft - height[left];
-            } else {
-                right -= 1;
-                maxRight = Math.max(maxRight, height[right]);
-                res += maxRight - height[right];
+        for(int i = 0; i < n; i++) {
+            int t = Math.min(maxLeft[i], maxRight[i]) - height[i];
+            if (t > 0) {
+                res += t;
             }
         }
         return res;
