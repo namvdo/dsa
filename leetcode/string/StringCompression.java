@@ -2,6 +2,21 @@ package leetcode.string;
 
 public class StringCompression {
     public int compress(char[] chars) {
-        // TODO: implement
+        int i = 0;
+        int res = 0;
+        while (i < chars.length) {
+            int groupLength = 1;
+            while (i + groupLength < chars.length && chars[i + groupLength] == chars[i]) {
+                groupLength++;
+            }
+            chars[res++] = chars[i];
+            if (groupLength > 1) {
+                for(char c : Integer.toString(groupLength).toCharArray()) {
+                    chars[res++] = c;
+                }
+            }
+            i += groupLength;
+        }
+        return res;
     } 
 }
