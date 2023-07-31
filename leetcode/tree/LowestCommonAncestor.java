@@ -6,9 +6,9 @@ public class LowestCommonAncestor {
             return root;
         TreeNode left = lowestCommonAncestor(root.left, p, q);
         TreeNode right = lowestCommonAncestor(root.right, p, q);
-        if (left != null && right != null)
+        if (left != null && right != null) // p and q exist in different subtrees
             return root;
-        return left != null ? left : right;
+        return left != null ? left : right; // p and q exist in the same subtree
     }
 
 }
