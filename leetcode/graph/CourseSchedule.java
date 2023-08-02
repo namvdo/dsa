@@ -1,47 +1,42 @@
 package leetcode.graph;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 
 public class CourseSchedule {
    public boolean canFinish(int numCourses, int[][] prerequisites) {
-        List<Integer>[] adj = new ArrayList[numCourses];
-        int[] indegree = new int[numCourses];
-        List<Integer> ans = new ArrayList<>();
-
-        for(int[] pair : prerequisites) {
-            int c = pair[0];
-            int pre = pair[1];
-            if (adj[pre] == null) {
-                adj[pre] = new ArrayList<>();
-            }
-            adj[pre].add(c);
-            indegree[c]++;
+        Map<Integer, List<Integer>> adjList = new HashMap<>();
+        for(int[] pre : prerequisites) {
+            int c = pre[0];
+            int p = pre[1];
+            adjList.putIfAbsent(c, new ArrayList<>());
+            adjList.get(c).add(p);
         }
-
-        Queue<Integer> queue = new LinkedList<>();
-        for(int i = 0; i < numCourses; i++) {
-            if (indegree[i] == 0) {
-                queue.offer(i);
+        Set<Integer> visited = new HashSet<>();
+        for(Map.Entry<Integer, List<Integer>> entry : adjList.entrySet()) {
+            if (!dfs(entry.getKey(), adjList, visited)) {
+                return false;
             }
         }
+        return true;
+   }
 
-        while (!queue.isEmpty()) {
-            int current = queue.poll();
-            ans.add(current);
-            if (adj[current] != null) {
-                for(int next : adj[current]) {
-                    indegree[next]--;
-                    if (indegree[next] == 0) {
-                        queue.offer(next);
-                    }
-                }
-            }
-        }
-
-        return ans.size() == numCourses;
-
-    } 
+   boolean dfs(int course, Map<Integer, List<Integer>> adjList, Set<Integer> visited) {
+		List<Integer> pres = adjList.get(course);
+		if (pres == null || pres.isEmpty()) return true;
+		if (visited.contains(course)) return false;
+		visited.add(course);
+		for(int pre : pres) {
+			if (!dfs(pre, adjList, visited)) return false;
+		}
+		adjList.put(course, new ArrayList<>());
+		visited.remove(course);
+		return true;
+   }
 }
